@@ -33,7 +33,7 @@ export default function Canvas({imageFile, lowerText, upperText, color = 'black'
   
     const words = text.split(' ');
     let line = '';
-    let currentY = y - lineHeight;
+    let currentY = baseline === 'bottom' ?  y - lineHeight : y;
 
     words.forEach((word) => {
       const metrics = context.measureText(word);
