@@ -2,3 +2,10 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+body {
+  position: relative;
+  width: 100dvw;
+  height: 100dvh;
+  overflow: hidden;
+}
