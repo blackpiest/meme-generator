@@ -48,7 +48,7 @@ function App() {
       if (wordWidth > maxWidth) {
         const characters = word.split('');
         let tempLine = '';
-  
+        
         characters.forEach((character) => {
           if (context.measureText(tempLine + character).width > maxWidth) {
             context.fillText(tempLine, x, currentY);
@@ -98,8 +98,8 @@ function App() {
     clearCanvas(canvas);
     drawImage(canvas, image);
     drawText(canvas, upperInputValue, canvas.width / 2, canvas.height / 20, canvas.width - 10, 'top');
-    drawText(canvas, lowerInputValue, canvas.width / 2, canvas.height - (canvas.height / 20), canvas.width - 10, 'bottom');
-  }, [drawText, image, lowerInputValue, upperInputValue]);
+    drawText(canvas, lowerInputValue, canvas.width / 2, canvas.height - (canvas.height / 20) - lineHeight, canvas.width - 10, 'bottom');
+  }, [drawText, image, lineHeight, lowerInputValue, upperInputValue]);
 
   const onDownload = () => {
     if (!canvasRef.current) return;
@@ -174,8 +174,8 @@ function App() {
       canvasRef.current.width = width;
       canvasRef.current.height = height;
 
-      setFontSize(canvasRef.current.height / 12);
-      setLineHeight((canvasRef.current.height / 12) * 1.2);
+      setFontSize(canvasRef.current.height / 16);
+      setLineHeight((canvasRef.current.height / 16) * 1.2);
       drawCanvas(canvasRef.current);
     }
     resize();
