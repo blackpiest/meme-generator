@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import styles from './canvas.module.css';
+import styles from './memeGenerator.module.css';
 import classNames from 'classnames';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
   setDataURL: (data: string) => void;
 }
 
-export default function Canvas({imageFile, lowerText, upperText, color = 'black', className, setDataURL}: Props) {
+export default function MemeGenerator({imageFile, lowerText, upperText, color = 'black', className, setDataURL}: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const resultRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
