@@ -5,6 +5,7 @@
 
 body {
   position: relative;
+  font-family: 'Inter', 'Arial', sans-serif;
   width: 100dvw;
   height: 100dvh;
   overflow: hidden;
