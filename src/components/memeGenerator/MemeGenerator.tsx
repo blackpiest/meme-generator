@@ -3,7 +3,7 @@ import styles from './memeGenerator.module.css';
 import classNames from 'classnames';
 
 interface Props {
-  imageFile: File | null;
+  image: HTMLImageElement | null;
   upperText: string;
   lowerText: string;
   color?: string;
@@ -11,12 +11,11 @@ interface Props {
   setDataURL: (data: string) => void;
 }
 
-export default function MemeGenerator({imageFile, lowerText, upperText, color = 'black', className, setDataURL}: Props) {
+export default function MemeGenerator({image, lowerText, upperText, color = 'black', className, setDataURL}: Props) {
   const [isMounted, setMounted] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const previewRef = useRef<HTMLCanvasElement>(null);
   const resultRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [image, setImage] = useState<HTMLImageElement | null>(null);
 
   const drawText = useCallback((canvas: HTMLCanvasElement, text: string, x: number, y: number, maxWidth: number, baseline: 'top' | 'bottom') => {
     const context = canvas.getContext('2d');
@@ -104,7 +103,6 @@ export default function MemeGenerator({imageFile, lowerText, upperText, color = 
 
   const drawCanvas = useCallback((canvas: HTMLCanvasElement) => {
     clearCanvas(canvas);
-    console.log('draw');
     drawImage(canvas, image);
     drawText(canvas, upperText, canvas.width / 2, canvas.height / 20, canvas.width - 10, 'top');
     drawText(canvas, lowerText, canvas.width / 2, canvas.height - (canvas.height / 20), canvas.width - 10, 'bottom');
@@ -118,39 +116,22 @@ export default function MemeGenerator({imageFile, lowerText, upperText, color = 
     drawCanvas(resultRef.current);
   }
 
-  // Преобразование файла в картинку
   useEffect(() => {
-    const file = imageFile;
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function(event) {
-      const img = new Image();
-      img.src = event.target?.result as string;
-      setImage(img);
-    };
-  
-    reader.readAsDataURL(file);
-  }, [imageFile]);
-
-  useEffect(() => {
-    if (!canvasRef.current || !isMounted) return;
-    drawCanvas(canvasRef.current);
+    if (!previewRef.current || !isMounted) return;
+    drawCanvas(previewRef.current);
     saveResult();
   }, [image, color, upperText, lowerText]);
 
   useEffect(() => {
     function resize() {
-      console.log('resize');
-      if (!containerRef.current || !canvasRef.current) return;
+      if (!containerRef.current || !previewRef.current) return;
       const size = containerRef.current.clientHeight;
-      canvasRef.current.width = size;
-      canvasRef.current.height = size;
+      previewRef.current.width = size;
+      previewRef.current.height = size;
       
-      drawCanvas(canvasRef.current);
+      drawCanvas(previewRef.current);
       saveResult();
     }
-
     if (!isMounted) {
       resize();
       setMounted(true);
@@ -165,8 +146,8 @@ export default function MemeGenerator({imageFile, lowerText, upperText, color = 
 
   return (
     <div ref={containerRef} className={classNames(styles.container, className)}>
-      <canvas id='preview' className={styles.canvas} ref={canvasRef} />
-      {/* <canvas id='result' className={styles.result} ref={resultRef} /> */}
+      <canvas id='preview' className={styles.preview} ref={previewRef} />
+      <canvas id='result' className={styles.result} ref={resultRef} />
     </div>
   );
 }
