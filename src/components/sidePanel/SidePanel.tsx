@@ -16,10 +16,11 @@ interface Props {
   file: File | null;
   onDownload: () => void;
   className?: string;
+  isFileLoading?: boolean;
 }
 
 export default function SidePanel({
-  color, file, lowerInputValue, onDownload, setColor, setFile, setLowerInputValue, setUpperInputValue, upperInputValue, className
+  color, file, lowerInputValue, onDownload, setColor, setFile, setLowerInputValue, setUpperInputValue, upperInputValue, className, isFileLoading
 }: Props) {
   const isCanvasEmpty = !file && !lowerInputValue && !upperInputValue;
   return (
@@ -29,6 +30,7 @@ export default function SidePanel({
           value={file}
           onChange={setFile}
           className={styles.fileInput}
+          isLoading={isFileLoading}
         />
         <Input
           value={upperInputValue} 

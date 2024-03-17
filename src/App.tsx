@@ -10,6 +10,7 @@ function App() {
   const [file, setFile] = useState<File | null>(null);
   const [color, setColor] = useState<string>('black');
   const [dataURL, setDataURL] = useState<string>('');
+  const [isFileLoading, setFileLoading] = useState(false);
   const [image, setImage] = useState<HTMLImageElement | null>(null);
 
   const onDownload = () => {
@@ -22,12 +23,14 @@ function App() {
 
   const onLoadImage = (file: File | null) => {
     if (!file) return;
-    setFile(file);
+    setFileLoading(true);
     const reader = new FileReader();
     reader.onload = function(event) {
       const img = new Image();
       img.src = event.target?.result as string;
+      setFile(file);
       setImage(img);
+      setFileLoading(false);
     };
   
     reader.readAsDataURL(file);
@@ -48,6 +51,7 @@ function App() {
           setUpperInputValue={setUpperInputValue}
           upperInputValue={upperInputValue}
           className={styles.sidePanel}
+          isFileLoading={isFileLoading}
         />
       </div>
      
