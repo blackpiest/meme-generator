@@ -36,7 +36,7 @@ export default function SidePanel({
           value={upperInputValue} 
           maxLength={50}
           onChange={setUpperInputValue} 
-          label='Вверхний текст'
+          label='Верхний текст'
         />
         <Input
           label='Нижний текст' 

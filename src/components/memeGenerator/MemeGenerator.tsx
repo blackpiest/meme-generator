@@ -24,10 +24,11 @@ export default function MemeGenerator({image, lowerText, upperText, color = 'bla
     const fontSize = canvas.height / 16;
     const lineHeight = (canvas.height / 16) * 1.2;
 
-    context.font = `600 ${fontSize}px Inter`;
+    context.font = `500 ${fontSize}px Inter`;
     context.textBaseline = baseline;
     context.fillStyle = color;
     context.textAlign = 'center';
+    context.fontKerning;
   
     const words = text.split(' ');
     let line = '';
@@ -111,8 +112,8 @@ export default function MemeGenerator({image, lowerText, upperText, color = 'bla
 
   function saveResult() {
     if (!resultRef.current) return;
-    resultRef.current.width = 500;
-    resultRef.current.height = 500;
+    resultRef.current.width = 1024;
+    resultRef.current.height = 1024;
     drawCanvas(resultRef.current);
   }
 
