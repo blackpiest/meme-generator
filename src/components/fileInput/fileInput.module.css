@@ -1,0 +1,9 @@
+.container {
+  position: relative;
+}
+
+.nativeInput {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}

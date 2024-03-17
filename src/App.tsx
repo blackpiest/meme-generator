@@ -19,25 +19,32 @@ function App() {
   
   return (
     <main className={styles.main}>
-      <SidePanel 
-        color={color}
-        file={file}
-        lowerInputValue={lowerInputValue}
-        setLowerInputValue={setLowerInputValue}
-        onDownload={onDownload}
-        setColor={setColor}
-        setFile={setFile}
-        setUpperInputValue={setUpperInputValue}
-        upperInputValue={upperInputValue}
-      />
-      <MemeGenerator 
-        className={styles.canvas} 
-        imageFile={file} 
-        lowerText={lowerInputValue} 
-        upperText={upperInputValue} 
-        color={color} 
-        setDataURL={setDataURL}
-      />
+      <div className={styles.sidePanelContainer}>
+        <h1 className={styles.headline}>Meme generator</h1>
+        <SidePanel 
+          color={color}
+          file={file}
+          lowerInputValue={lowerInputValue}
+          setLowerInputValue={setLowerInputValue}
+          onDownload={onDownload}
+          setColor={setColor}
+          setFile={setFile}
+          setUpperInputValue={setUpperInputValue}
+          upperInputValue={upperInputValue}
+        />
+      </div>
+     
+      <div className={styles.canvasContainer}>
+        <MemeGenerator 
+          className={styles.canvas} 
+          imageFile={file} 
+          lowerText={lowerInputValue} 
+          upperText={upperInputValue} 
+          color={color} 
+          setDataURL={setDataURL}
+        />
+      </div>
+     
     </main>
   );
 }

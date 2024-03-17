@@ -1,3 +1,7 @@
+import Button from '../button/Button';
+import ColorPallete from '../colorPallete/ColorPallete';
+import FileInput from '../fileInput/FileInput';
+import Input from '../input/Input';
 import styles from './sidePanel.module.css';
 
 interface Props {
@@ -15,28 +19,33 @@ interface Props {
 export default function SidePanel({
   color, file, lowerInputValue, onDownload, setColor, setFile, setLowerInputValue, setUpperInputValue, upperInputValue
 }: Props) {
+  const isCanvasEmpty = !file && !lowerInputValue && !upperInputValue;
   return (
     <aside className={styles.panel}>
-      <input 
-        placeholder='Вверхний текст' 
+      <FileInput
+        value={file}
+        onChange={setFile}
+        className={styles.fileInput}
+      />
+      <Input
         value={upperInputValue} 
         maxLength={50}
-        onChange={(e) => setUpperInputValue(e.target.value)} 
+        onChange={setUpperInputValue} 
+        label='Вверхний текст'
       />
-      <input 
-        placeholder='Нижний текст' 
+      <Input
+        label='Нижний текст' 
         value={lowerInputValue}
-        onChange={(e) => setLowerInputValue(e.target.value)} 
+        onChange={setLowerInputValue} 
         maxLength={40}
       />
-      <input type='file' onChange={(e) => setFile(e.target.files?.[0] || null)} />
-      <div className={styles.colors}>
-        <button onClick={() => setColor('white')} className={styles.color}>White</button>
-        <button onClick={() => setColor('black')} className={styles.color}>Black</button>
-        <button onClick={() => setColor('blue')} className={styles.color}>Blue</button>
-        <button onClick={() => setColor('red')} className={styles.color}>Red</button>
-      </div>
-      <button onClick={onDownload}>Скачать</button>
+      <ColorPallete
+        colors={['white', 'black', 'blue', 'red']}
+        value={color}
+        onChange={setColor}
+        className={styles.colors}
+      />
+      <Button disabled={isCanvasEmpty} onClick={onDownload}>Скачать</Button>
     </aside>
   );
 }
