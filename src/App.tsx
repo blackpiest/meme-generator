@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from './App.module.css';
 import MemeGenerator from './components/memeGenerator/MemeGenerator';
 import SidePanel from './components/sidePanel/SidePanel';
+import generateHash from './lib/generateHash';
 
 function App() {
   const [upperInputValue, setUpperInputValue] = useState<string>('');
@@ -12,9 +13,10 @@ function App() {
   const [image, setImage] = useState<HTMLImageElement | null>(null);
 
   const onDownload = () => {
+    const hash = generateHash(8);
     const link = document.createElement('a');
     link.href = dataURL;
-    link.download = 'meme_generator.jpg';
+    link.download = `meme_generator_${hash}.jpg`;
     link.click();
   };
 
