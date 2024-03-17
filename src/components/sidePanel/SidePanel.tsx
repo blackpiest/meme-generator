@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import Button from '../button/Button';
 import ColorPallete from '../colorPallete/ColorPallete';
 import FileInput from '../fileInput/FileInput';
@@ -14,38 +15,41 @@ interface Props {
   setFile: (file: File | null) => void;
   file: File | null;
   onDownload: () => void;
+  className?: string;
 }
 
 export default function SidePanel({
-  color, file, lowerInputValue, onDownload, setColor, setFile, setLowerInputValue, setUpperInputValue, upperInputValue
+  color, file, lowerInputValue, onDownload, setColor, setFile, setLowerInputValue, setUpperInputValue, upperInputValue, className
 }: Props) {
   const isCanvasEmpty = !file && !lowerInputValue && !upperInputValue;
   return (
-    <aside className={styles.panel}>
-      <FileInput
-        value={file}
-        onChange={setFile}
-        className={styles.fileInput}
-      />
-      <Input
-        value={upperInputValue} 
-        maxLength={50}
-        onChange={setUpperInputValue} 
-        label='Вверхний текст'
-      />
-      <Input
-        label='Нижний текст' 
-        value={lowerInputValue}
-        onChange={setLowerInputValue} 
-        maxLength={40}
-      />
-      <ColorPallete
-        colors={['white', 'black', 'blue', 'red']}
-        value={color}
-        onChange={setColor}
-        className={styles.colors}
-      />
-      <Button disabled={isCanvasEmpty} onClick={onDownload}>Скачать</Button>
+    <aside className={classNames(styles.panel, className)}>
+      <div className={styles.form}>
+        <FileInput
+          value={file}
+          onChange={setFile}
+          className={styles.fileInput}
+        />
+        <Input
+          value={upperInputValue} 
+          maxLength={50}
+          onChange={setUpperInputValue} 
+          label='Вверхний текст'
+        />
+        <Input
+          label='Нижний текст' 
+          value={lowerInputValue}
+          onChange={setLowerInputValue} 
+          maxLength={40}
+        />
+        <ColorPallete
+          colors={['white', 'black', 'blue', 'red']}
+          value={color}
+          onChange={setColor}
+          className={styles.colors}
+        />
+        <Button disabled={isCanvasEmpty} onClick={onDownload}>Скачать результат</Button>
+      </div>
     </aside>
   );
 }

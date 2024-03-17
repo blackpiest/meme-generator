@@ -12,7 +12,7 @@ export default function ColorPallete({colors, value, className, onChange}: Props
   return (
     <div className={classNames(styles.container, className)}>
       {colors.map(item => (
-        <button onClick={() => onChange?.(item)} key={item} className={classNames(styles.btn, value === item && styles.selected)} style={{backgroundColor: item}}>{item}</button>
+        <button onClick={() => onChange?.(item)} key={item} className={classNames(styles.btn, value === item && styles.selected)} style={{backgroundColor: item}}><span>{item}</span></button>
       ))}
     </div>
   );

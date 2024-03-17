@@ -31,6 +31,7 @@ function App() {
           setFile={setFile}
           setUpperInputValue={setUpperInputValue}
           upperInputValue={upperInputValue}
+          className={styles.sidePanel}
         />
       </div>
      
