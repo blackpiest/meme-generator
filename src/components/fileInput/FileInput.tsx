@@ -17,7 +17,6 @@ export default function FileInput({value, className, onChange}: Props) {
         {!value && <span>Загрузите файл</span>}
         {value && <span className={styles.fileName}>
           {`Файл "${value.name}" загружен.`}
-          <span className={styles.icon}></span>
         </span>}
       </label>
     </div>

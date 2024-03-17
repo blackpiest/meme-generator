@@ -32,9 +32,8 @@ button {
 body {
   position: relative;
   font-family: 'Inter', 'Arial', sans-serif;
-  width: 100dvw;
-  height: 100dvh;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 #root {

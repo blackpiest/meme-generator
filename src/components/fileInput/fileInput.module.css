@@ -45,6 +45,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  width: 100%;
+
+  &::after {
+    position: absolute;
+    content: "";
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 22px;
+    background: linear-gradient(-90deg,rgb(249, 246, 251), rgba(249, 246, 251, 0.94),rgba(255, 255, 255, 0));
+  }
 }
 
 .icon {
