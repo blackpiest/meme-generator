@@ -15,8 +15,8 @@ function App() {
     link.href = dataURL;
     link.download = 'meme_generator.jpg';
     link.click();
-  }
-
+  };
+  
   return (
     <main className={styles.main}>
       <SidePanel 
@@ -37,7 +37,7 @@ function App() {
         upperText={upperInputValue} 
         color={color} 
         setDataURL={setDataURL}
-        />
+      />
     </main>
   );
 }

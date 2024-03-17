@@ -118,7 +118,7 @@ export default function MemeGenerator({imageFile, lowerText, upperText, color = 
     drawCanvas(resultRef.current);
   }
 
-// Преобразование файла в картинку
+  // Преобразование файла в картинку
   useEffect(() => {
     const file = imageFile;
     if (!file) return;
@@ -159,7 +159,6 @@ export default function MemeGenerator({imageFile, lowerText, upperText, color = 
     reader.readAsDataURL(file);
   }, [imageFile]);
 
-
   useEffect(() => {
     if (!canvasRef.current) return;
 
@@ -190,5 +189,5 @@ export default function MemeGenerator({imageFile, lowerText, upperText, color = 
       <canvas id='preview' className={styles.canvas} ref={canvasRef} />
       <canvas id='result' className={styles.result} ref={resultRef} />
     </div>
-  )
+  );
 }
