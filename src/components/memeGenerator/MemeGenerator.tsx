@@ -12,6 +12,7 @@ interface Props {
 }
 
 export default function MemeGenerator({imageFile, lowerText, upperText, color = 'black', className, setDataURL}: Props) {
+  const [isMounted, setMounted] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const resultRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,14 +20,12 @@ export default function MemeGenerator({imageFile, lowerText, upperText, color = 
 
   const drawText = useCallback((canvas: HTMLCanvasElement, text: string, x: number, y: number, maxWidth: number, baseline: 'top' | 'bottom') => {
     const context = canvas.getContext('2d');
-    if (!context) {
-      throw new Error('Canvas context not found');
-    }
+    if (!context) return;
 
     const fontSize = canvas.height / 16;
     const lineHeight = (canvas.height / 16) * 1.2;
 
-    context.font = `${fontSize}px Arial`;
+    context.font = `600 ${fontSize}px Inter`;
     context.textBaseline = baseline;
     context.fillStyle = color;
     context.textAlign = 'center';
@@ -105,11 +104,12 @@ export default function MemeGenerator({imageFile, lowerText, upperText, color = 
 
   const drawCanvas = useCallback((canvas: HTMLCanvasElement) => {
     clearCanvas(canvas);
+    console.log('draw');
     drawImage(canvas, image);
     drawText(canvas, upperText, canvas.width / 2, canvas.height / 20, canvas.width - 10, 'top');
     drawText(canvas, lowerText, canvas.width / 2, canvas.height - (canvas.height / 20), canvas.width - 10, 'bottom');
     setDataURL(canvas.toDataURL('image/jpeg'));
-  }, [drawText, image, lowerText, upperText]);
+  }, [upperText, lowerText, image, drawImage, drawText]);
 
   function saveResult() {
     if (!resultRef.current) return;
@@ -126,32 +126,6 @@ export default function MemeGenerator({imageFile, lowerText, upperText, color = 
     const reader = new FileReader();
     reader.onload = function(event) {
       const img = new Image();
-  
-      img.onload = function() {
-        if (!canvasRef.current || !containerRef.current) return;
-
-        const canvas = canvasRef.current;
-        const aspectRatio = img.width / img.height;
-        const canvasAspectRatio = canvas.width / canvas.height;
-        let scaleFactor = 1;
-  
-        if (aspectRatio > canvasAspectRatio) {
-          scaleFactor = canvas.width / img.width;
-        } else {
-          scaleFactor = canvas.height / img.height;
-        }
-  
-        const scaledWidth = img.width * scaleFactor;
-        const scaledHeight = img.height * scaleFactor;
-        const x = (canvas.width - scaledWidth) / 2;
-        const y = (canvas.height - scaledHeight) / 2;
-  
-        const ctx = canvasRef.current.getContext('2d');
-        if (!ctx) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, x, y, scaledWidth, scaledHeight);
-      };
-  
       img.src = event.target?.result as string;
       setImage(img);
     };
@@ -160,23 +134,28 @@ export default function MemeGenerator({imageFile, lowerText, upperText, color = 
   }, [imageFile]);
 
   useEffect(() => {
-    if (!canvasRef.current) return;
-
+    if (!canvasRef.current || !isMounted) return;
     drawCanvas(canvasRef.current);
     saveResult();
-  }, [image, color, upperText, lowerText, drawCanvas]);
+  }, [image, color, upperText, lowerText]);
 
   useEffect(() => {
     function resize() {
+      console.log('resize');
       if (!containerRef.current || !canvasRef.current) return;
       const size = containerRef.current.clientHeight;
       canvasRef.current.width = size;
       canvasRef.current.height = size;
-
+      
       drawCanvas(canvasRef.current);
       saveResult();
     }
-    resize();
+
+    if (!isMounted) {
+      resize();
+      setMounted(true);
+    }
+
     window.addEventListener('resize', resize);
 
     return () => {
@@ -187,7 +166,7 @@ export default function MemeGenerator({imageFile, lowerText, upperText, color = 
   return (
     <div ref={containerRef} className={classNames(styles.container, className)}>
       <canvas id='preview' className={styles.canvas} ref={canvasRef} />
-      <canvas id='result' className={styles.result} ref={resultRef} />
+      {/* <canvas id='result' className={styles.result} ref={resultRef} /> */}
     </div>
   );
 }
